@@ -1,26 +1,33 @@
-const { app, BrowserWindow, screen } = require('electron');
+const { app, BrowserWindow, screen, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const configPath = path.join(app.getPath('userData'), 'widget-config.json');
+const autoStartPath = path.join(app.getPath('userData'), 'autostart.json');
 
 function loadConfig() {
-  try {
-    return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-  } catch {
-    return {};
-  }
+  try { return JSON.parse(fs.readFileSync(configPath, 'utf-8')); } catch { return {}; }
 }
 
 function saveConfig(data) {
-  try {
-    fs.writeFileSync(configPath, JSON.stringify(data));
-  } catch {}
+  try { fs.writeFileSync(configPath, JSON.stringify(data)); } catch {}
+}
+
+function loadAutoStart() {
+  try { return JSON.parse(fs.readFileSync(autoStartPath, 'utf-8')).enabled; } catch { return true; }
+}
+
+function saveAutoStart(enabled) {
+  try { fs.writeFileSync(autoStartPath, JSON.stringify({ enabled })); } catch {}
 }
 
 let mainWindow;
 
+app.setLoginItemSettings({ openAtLogin: true });
+
 app.whenReady().then(() => {
+  app.setLoginItemSettings({ openAtLogin: loadAutoStart() });
+
   const config = loadConfig();
   const { width: screenW } = screen.getPrimaryDisplay().workAreaSize;
 
@@ -35,7 +42,8 @@ app.whenReady().then(() => {
     resizable: false,
     webPreferences: {
       nodeIntegration: false,
-      contextIsolation: true
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     },
     show: false
   };
@@ -68,6 +76,16 @@ app.whenReady().then(() => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+});
+
+ipcMain.handle('get-auto-start', () => {
+  return app.getLoginItemSettings().openAtLogin;
+});
+
+ipcMain.handle('set-auto-start', (event, enabled) => {
+  app.setLoginItemSettings({ openAtLogin: enabled });
+  saveAutoStart(enabled);
+  return enabled;
 });
 
 app.on('window-all-closed', () => {
