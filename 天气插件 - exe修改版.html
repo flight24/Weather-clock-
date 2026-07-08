@@ -61,6 +61,27 @@ body {
 }
 .close-btn:hover { background: rgba(255, 80, 80, 0.35); color: #fff; }
 
+.auto-btn {
+    position: absolute;
+    top: 10px; left: 36px;
+    width: 20px; height: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-app-region: no-drag;
+    z-index: 20;
+    transition: all 0.2s;
+}
+.auto-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.auto-btn.on { color: #fff; background: #2196F3; }
+
 .city-btn {
     position: absolute;
     top: 8px; right: 10px;
@@ -189,6 +210,7 @@ body {
 </div>
 
 <button class="close-btn" id="closeBtn">✕</button>
+<button class="auto-btn" id="autoBtn" title="开机自启">⚡</button>
 
 <div class="widget-container">
     <button class="city-btn" id="cityBtn">加载中 ▾</button>
@@ -461,6 +483,18 @@ function updateForecastUI(data) {
 }
 
 document.getElementById('closeBtn').addEventListener('click', () => window.close());
+
+const autoBtn = document.getElementById('autoBtn');
+if (window.electronAPI) {
+    window.electronAPI.getAutoStart().then(enabled => {
+        autoBtn.classList.toggle('on', enabled);
+    });
+    autoBtn.addEventListener('click', async () => {
+        const current = autoBtn.classList.contains('on');
+        const enabled = await window.electronAPI.setAutoStart(!current);
+        autoBtn.classList.toggle('on', enabled);
+    });
+}
 
 updateTime();
 setInterval(updateTime, 1000);
