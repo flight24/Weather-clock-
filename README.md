@@ -9,11 +9,27 @@
 - 实时时钟 + 日期 + 星期显示
 - 当前天气：温度、体感温度、湿度、风速
 - 天气图标动态动画（晴天脉冲、雨滴弹跳、闪电闪烁、雪花飘浮等）
-- 动态天气背景（晴天金色、雨天深蓝、雪天灰白、雷暴暗紫、夜间星空）
+- 天气粒子效果（雨滴下落、雪花飘落、夜间星空）
 - 未来三天天气预报
-- 覆盖全国 300+ 城市，省份 → 城市级联选择
-- 自动记忆上次选择的城市
-- 毛玻璃 UI 设计
+- 覆盖全国 300+ 城市，省份 → 城市级联菜单选择
+- 自动记忆上次选择的城市和省份
+- 开机自启动（⚡ 按钮切换，蓝色高亮 = 已开启）
+- 毛玻璃 UI 设计，半透明融入桌面
+
+## 项目结构
+
+```
+weather clock/
+├── 天气插件-exe修改版.html             ← 紧凑版（280×380，用于打包 exe）
+├── 天气插件.html                      ← 浏览器完整版（全屏动态背景）
+├── README.md
+├── main.js                            ← Electron 主进程
+├── preload.js                         ← 预加载脚本（开机自启 IPC）
+├── package.json                       ← 依赖与构建配置
+├── icon.svg / icon.ico                ← 应用图标
+├── start-widget.bat                   ← 开发模式一键启动
+├── build.bat                          ← 一键构建 exe
+```
 
 ## 使用方法
 
@@ -26,10 +42,19 @@
 - 半透明毛玻璃效果，融入桌面
 - 不在任务栏显示，不干扰其他窗口
 - 关闭后自动记忆窗口位置
+- 支持开机自启动
 
 ### 方式二：浏览器版
 
 直接用浏览器打开 `天气插件.html`（全屏动态背景版）。
+
+## 重新构建 exe
+
+修改 HTML 或 JS 后，重新打包：
+
+```bash
+npm run build
+```
 
 ## 技术栈
 
@@ -47,14 +72,30 @@ A desktop weather clock widget supporting cities across China, available in both
 
 ## Features
 
-- Real-time clock + date + weekday display
+- Real-time clock, date, and day display
 - Current weather: temperature, feels-like temperature, humidity, wind speed
-- Dynamic weather icons with animations (sunny pulse, raindrop bounce, lightning flash, snow flurry, etc.)
-- Dynamic weather backgrounds (golden for sunny, deep blue for rainy, greyish white for snowy, dark purple for thunderstorm, starry night sky)
-- 3-day weather forecast
-- Covers 300+ cities across China, with province → city cascading selection
-- Automatically remembers the last selected city
-- Frosted glass UI design
+- Dynamic weather icons (sun pulses, raindrops bounce, lightning flashes, snowflakes float, etc.)
+- Weather particle effects (falling rain, drifting snow, night sky with stars)
+- Three-day weather forecast
+- Covers 300 cities nationwide, province → city cascading menu selection
+- Automatically remembers the last selected city and province
+- Auto-start on boot (⚡ button toggle, blue highlight = enabled)
+- Frosted glass UI design, semi-transparent to blend into the desktop
+
+## Project Structure
+
+```
+weather clock/
+├── 天气插件-exe修改版.html             ← 紧凑版（280×380，用于打包 exe）
+├── 天气插件.html                      ← 浏览器完整版（全屏动态背景）
+├── README.md
+├── main.js                            ← Electron 主进程
+├── preload.js                         ← 预加载脚本（开机自启 IPC）
+├── package.json                       ← 依赖与构建配置
+├── icon.svg / icon.ico                ← 应用图标
+├── start-widget.bat                   ← 开发模式一键启动
+├── build.bat                          ← 一键构建 exe
+```
 
 ## How to Use
 
@@ -67,10 +108,19 @@ Double-click `weather clock.exe` directly – no dependencies to install.
 - Semi-transparent frosted glass effect that blends into the desktop
 - Does not appear in the taskbar and does not interfere with other windows
 - Automatically remembers window position after closing
+- Supports startup on boot
 
 ### Option 2: Browser Version
 
 Open `天气插件.html` (full-screen dynamic background version) directly in your browser.
+
+## Rebuild the exe
+
+After modifying the HTML or JS, repackage it:
+
+```bash
+npm run build
+```
 
 ## Tech Stack
 
