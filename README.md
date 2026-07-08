@@ -1,6 +1,6 @@
 # Weather-clock时钟天气
 
-<img width="302" height="408" alt="image" src="https://github.com/user-attachments/assets/ed52d29c-2836-4587-9bf5-3efd18e9bca0" /> <img width="516" height="724" alt="image" src="https://github.com/user-attachments/assets/1a1e77f9-d64a-49fc-ae8f-4de60f52325b" />
+<img width="302" height="408" alt="image" src="https://github.com/user-attachments/assets/ed52d29c-2836-4587-9bf5-3efd18e9bca0" /> <img width="285" height="408" alt="image" src="https://github.com/user-attachments/assets/1a1e77f9-d64a-49fc-ae8f-4de60f52325b" />
 
 一个支持全国城市的天气时钟桌面小工具，提供浏览器版和 Windows 桌面版（Electron exe）两种使用方式。
 
