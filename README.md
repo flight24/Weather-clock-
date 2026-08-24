@@ -2,7 +2,7 @@
 
 <img width="302" height="408" alt="image" src="https://github.com/user-attachments/assets/ed52d29c-2836-4587-9bf5-3efd18e9bca0" /> <img width="285" height="408" alt="image" src="https://github.com/user-attachments/assets/1a1e77f9-d64a-49fc-ae8f-4de60f52325b" />
 
-一个支持全国城市的天气时钟桌面小工具，提供浏览器版和 Windows 桌面版（Electron exe）两种使用方式。
+一个支持全国城市的天气时钟桌面小工具，使用 WPF + WebView2 构建。
 
 ## 功能
 
@@ -14,28 +14,31 @@
 - 覆盖全国 300+ 城市，省份 → 城市级联菜单选择
 - 自动记忆上次选择的城市和省份
 - 开机自启动（⚡ 按钮切换，蓝色高亮 = 已开启）
-- 毛玻璃 UI 设计，半透明融入桌面
+- 半透明毛玻璃 UI 设计，融入桌面
+- 窗口拖动（在非按钮区域按住拖动）
 
 ## 项目结构
 
 ```
-weather clock/
-├── 天气插件-exe修改版.html             ← 紧凑版（280×380，用于打包 exe）
-├── 天气插件.html                      ← 浏览器完整版（全屏动态背景）
-├── README.md
-├── main.js                            ← Electron 主进程
-├── preload.js                         ← 预加载脚本（开机自启 IPC）
-├── package.json                       ← 依赖与构建配置
-├── icon.svg / icon.ico                ← 应用图标
-├── start-widget.bat                   ← 开发模式一键启动
-├── build.bat                          ← 一键构建 exe
+weather-clock-wpf/
+├── 天气插件.html                      ← 紧凑版（280×380，用于打包 exe）
+├── 天气插件 - html完整版.html          ← 浏览器完整版
+├── MainWindow.xaml                    ← WPF 窗口布局
+├── MainWindow.xaml.cs                 ← 窗口逻辑（WebView2、DWM 毛玻璃、拖动）
+├── WidgetApi.cs                      ← 开机自启注册表 + 拖动 API
+├── App.xaml / App.xaml.cs            ← 应用程序入口
+├── AssemblyInfo.cs                   ← 程序集信息
+├── WeatherWidget.csproj              ← 项目配置（.NET 9）
+├── icon.ico                          ← 应用图标
+├── build.bat                         ← 一键构建 exe
+└── README.md
 ```
 
 ## 使用方法
 
-### 方式一：桌面版 exe
+### 桌面版 exe
 
-直接双击 `weather clock.exe`，无需安装任何依赖。
+直接双击 `publish\天气插件.exe`，无需安装任何依赖。
 
 **特性：**
 - 280×380 圆角窗口
@@ -44,31 +47,42 @@ weather clock/
 - 关闭后自动记忆窗口位置
 - 支持开机自启动
 
-### 方式二：浏览器版
+### 浏览器版
 
-直接用浏览器打开 `天气插件.html`（全屏动态背景版）。
+直接用浏览器打开 `天气插件 - html完整版.html`（全屏动态背景版）。
 
 ## 重新构建 exe
 
-修改 HTML 或 JS 后，重新打包：
+### 环境要求
+
+- .NET 9 SDK
+- Windows 10/11 x64
+
+### 构建步骤
 
 ```bash
-npm run build
+# 一键构建
+build.bat
+
+# 或手动
+dotnet publish -c Release -o publish
 ```
+
+输出文件：`publish\天气插件.exe`（单文件自包含，约 80MB）
 
 ## 技术栈
 
 - 天气数据：[Open-Meteo API](https://open-meteo.com/)（免费，无需 API Key）
 - 地理编码：[Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
-- 桌面端：[Electron](https://www.electronjs.org/)
-- 构建工具：[electron-builder](https://www.electron.build/)
+- 桌面端：WPF (.NET 9) + WebView2
+- 毛玻璃效果：DWM SetWindowCompositionAttribute
 - 纯 HTML/CSS/JS，无前端框架依赖
 
 
 
 # Weather-clock
 
-A desktop weather clock widget supporting cities across China, available in both browser-based and Windows desktop (Electron exe) versions.
+A desktop weather clock widget supporting cities across China, built with WPF + WebView2.
 
 ## Features
 
@@ -80,28 +94,31 @@ A desktop weather clock widget supporting cities across China, available in both
 - Covers 300 cities nationwide, province → city cascading menu selection
 - Automatically remembers the last selected city and province
 - Auto-start on boot (⚡ button toggle, blue highlight = enabled)
-- Frosted glass UI design, semi-transparent to blend into the desktop
+- Semi-transparent frosted glass UI design, blends into the desktop
+- Window dragging (hold and drag on non-button areas)
 
 ## Project Structure
 
 ```
-weather clock/
-├── 天气插件-exe修改版.html             ← 紧凑版（280×380，用于打包 exe）
-├── 天气插件.html                      ← 浏览器完整版（全屏动态背景）
-├── README.md
-├── main.js                            ← Electron 主进程
-├── preload.js                         ← 预加载脚本（开机自启 IPC）
-├── package.json                       ← 依赖与构建配置
-├── icon.svg / icon.ico                ← 应用图标
-├── start-widget.bat                   ← 开发模式一键启动
-├── build.bat                          ← 一键构建 exe
+weather-clock-wpf/
+├── 天气插件.html                      ← Compact version (280×380, for exe packaging)
+├── 天气插件 - html完整版.html          ← Full browser version
+├── MainWindow.xaml                    ← WPF window layout
+├── MainWindow.xaml.cs                 ← Window logic (WebView2, DWM frosted glass, drag)
+├── WidgetApi.cs                      ← Auto-start registry + drag API
+├── App.xaml / App.xaml.cs            ← Application entry point
+├── AssemblyInfo.cs                   ← Assembly info
+├── WeatherWidget.csproj              ← Project config (.NET 9)
+├── icon.ico                          ← App icon
+├── build.bat                         ← One-click exe build
+└── README.md
 ```
 
 ## How to Use
 
-### Option 1: Desktop EXE
+### Desktop EXE
 
-Double-click `weather clock.exe` directly – no dependencies to install.
+Double-click `publish\天气插件.exe` directly – no dependencies to install.
 
 **Features:**
 - 280×380 rounded-corner window
@@ -110,22 +127,33 @@ Double-click `weather clock.exe` directly – no dependencies to install.
 - Automatically remembers window position after closing
 - Supports startup on boot
 
-### Option 2: Browser Version
+### Browser Version
 
-Open `天气插件.html` (full-screen dynamic background version) directly in your browser.
+Open `天气插件 - html完整版.html` (full-screen dynamic background version) directly in your browser.
 
 ## Rebuild the exe
 
-After modifying the HTML or JS, repackage it:
+### Requirements
+
+- .NET 9 SDK
+- Windows 10/11 x64
+
+### Build Steps
 
 ```bash
-npm run build
+# One-click build
+build.bat
+
+# Or manually
+dotnet publish -c Release -o publish
 ```
+
+Output: `publish\天气插件.exe` (single-file self-contained, ~80MB)
 
 ## Tech Stack
 
 - Weather data: [Open-Meteo API](https://open-meteo.com/) (free, no API Key required)
 - Geocoding: [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
-- Desktop: [Electron](https://www.electronjs.org/)
-- Build tool: [electron-builder](https://www.electron.build/)
+- Desktop: WPF (.NET 9) + WebView2
+- Frosted glass effect: DWM SetWindowCompositionAttribute
 - Pure HTML/CSS/JS, no frontend framework dependencies
