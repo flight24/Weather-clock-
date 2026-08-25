@@ -10,10 +10,9 @@
 - 当前天气：温度、体感温度、湿度、风速
 - 天气图标动态动画（晴天脉冲、雨滴弹跳、闪电闪烁、雪花飘浮等）
 - 天气粒子效果（雨滴下落、雪花飘落、夜间星空）
-- 未来三天天气预报（取正午逐小时数据，更准确）
+- 未来三天天气预报
 - 覆盖全国 300+ 城市，省份 → 城市级联菜单选择
 - GPS 自动定位（📍 按钮，启动时自动定位一次，失败则回退到上次城市）
-- 反向地理编码显示定位城市名（国内直连可用，无需 VPN）
 - 自动记忆上次选择的城市和省份
 - 开机自启动（⚡ 按钮切换，蓝色高亮 = 已开启）
 - 半透明毛玻璃 UI 设计，融入桌面
@@ -95,10 +94,9 @@ A desktop weather clock widget supporting cities across China, built with WPF + 
 - Current weather: temperature, feels-like temperature, humidity, wind speed
 - Dynamic weather icons (sun pulses, raindrops bounce, lightning flashes, snowflakes float, etc.)
 - Weather particle effects (falling rain, drifting snow, night sky with stars)
-- Three-day weather forecast (uses midday hourly data for better accuracy)
+- Three-day weather forecast
 - Covers 300 cities nationwide, province → city cascading menu selection
 - GPS auto-location (📍 button, auto-locates once on startup, falls back to last city on failure)
-- Reverse geocoding to display the located city name (works in China without VPN)
 - Automatically remembers the last selected city and province
 - Auto-start on boot (⚡ button toggle, blue highlight = enabled)
 - Semi-transparent frosted glass UI design, blends into the desktop
