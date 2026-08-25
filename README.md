@@ -10,8 +10,10 @@
 - 当前天气：温度、体感温度、湿度、风速
 - 天气图标动态动画（晴天脉冲、雨滴弹跳、闪电闪烁、雪花飘浮等）
 - 天气粒子效果（雨滴下落、雪花飘落、夜间星空）
-- 未来三天天气预报
+- 未来三天天气预报（取正午逐小时数据，更准确）
 - 覆盖全国 300+ 城市，省份 → 城市级联菜单选择
+- GPS 自动定位（📍 按钮，启动时自动定位一次，失败则回退到上次城市）
+- 反向地理编码显示定位城市名（国内直连可用，无需 VPN）
 - 自动记忆上次选择的城市和省份
 - 开机自启动（⚡ 按钮切换，蓝色高亮 = 已开启）
 - 半透明毛玻璃 UI 设计，融入桌面
@@ -43,6 +45,7 @@ weather-clock-wpf/
 **特性：**
 - 280×380 圆角窗口
 - 半透明毛玻璃效果，融入桌面
+- 启动时自动 GPS 定位，失败则回退到上次城市
 - 不在任务栏显示，不干扰其他窗口
 - 关闭后自动记忆窗口位置
 - 支持开机自启动
@@ -68,12 +71,14 @@ build.bat
 dotnet publish -c Release -o publish
 ```
 
-输出文件：`publish\天气插件.exe`（单文件自包含，约 80MB）
+输出文件：`publish\天气插件.exe`（单文件自包含绿色版，约 65MB）
 
 ## 技术栈
 
 - 天气数据：[Open-Meteo API](https://open-meteo.com/)（免费，无需 API Key）
 - 地理编码：[Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
+- 反向地理编码：[BigDataCloud Reverse Geocode](https://www.bigdatacloud.com/)（免费无注册，国内直连）
+- 定位：浏览器 Geolocation API（WebView2 自动授权）
 - 桌面端：WPF (.NET 9) + WebView2
 - 毛玻璃效果：DWM SetWindowCompositionAttribute
 - 纯 HTML/CSS/JS，无前端框架依赖
@@ -90,8 +95,10 @@ A desktop weather clock widget supporting cities across China, built with WPF + 
 - Current weather: temperature, feels-like temperature, humidity, wind speed
 - Dynamic weather icons (sun pulses, raindrops bounce, lightning flashes, snowflakes float, etc.)
 - Weather particle effects (falling rain, drifting snow, night sky with stars)
-- Three-day weather forecast
+- Three-day weather forecast (uses midday hourly data for better accuracy)
 - Covers 300 cities nationwide, province → city cascading menu selection
+- GPS auto-location (📍 button, auto-locates once on startup, falls back to last city on failure)
+- Reverse geocoding to display the located city name (works in China without VPN)
 - Automatically remembers the last selected city and province
 - Auto-start on boot (⚡ button toggle, blue highlight = enabled)
 - Semi-transparent frosted glass UI design, blends into the desktop
@@ -123,6 +130,7 @@ Double-click `publish\天气插件.exe` directly – no dependencies to install.
 **Features:**
 - 280×380 rounded-corner window
 - Semi-transparent frosted glass effect that blends into the desktop
+- Auto GPS-location on startup, falls back to last saved city on failure
 - Does not appear in the taskbar and does not interfere with other windows
 - Automatically remembers window position after closing
 - Supports startup on boot
@@ -148,12 +156,14 @@ build.bat
 dotnet publish -c Release -o publish
 ```
 
-Output: `publish\天气插件.exe` (single-file self-contained, ~80MB)
+Output: `publish\天气插件.exe` (single-file self-contained, ~65MB)
 
 ## Tech Stack
 
 - Weather data: [Open-Meteo API](https://open-meteo.com/) (free, no API Key required)
 - Geocoding: [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
+- Reverse geocoding: [BigDataCloud Reverse Geocode](https://www.bigdatacloud.com/) (free, no registration, direct access in China)
+- Location: Browser Geolocation API (auto-granted in WebView2)
 - Desktop: WPF (.NET 9) + WebView2
 - Frosted glass effect: DWM SetWindowCompositionAttribute
 - Pure HTML/CSS/JS, no frontend framework dependencies
