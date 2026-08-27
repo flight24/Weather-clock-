@@ -1,0 +1,18 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# User-specific files
+*.user
+*.suo
+.vs/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+Desktop.ini
